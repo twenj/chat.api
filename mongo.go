@@ -1,5 +1,7 @@
 package main
 
+// 测试 mongodb 连接
+
 import (
 	"fmt"
 	mgo "gopkg.in/mgo.v2"
