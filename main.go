@@ -1,18 +1,28 @@
 package main
 
 import (
-	"go-web/app"
-	"goinsurance/router"
-	"log"
+	"github.com/gorilla/websocket"
 	"net/http"
 )
 
-func main() {
-	routerInfo := start()
-	log.Fatal(http.ListenAndServe(":8080", routerInfo))
+var clients = make(map[*websocket.Conn]bool) // connected clients
+var broadcast = make(chan Message)           // broadcast channel
+
+// Configure the upgrader
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
 }
 
-func start() *app.AppRouter {
-	router := router.Init()
-	return router
+// Define our message object
+type Message struct {
+	Email    string `json:"email"`
+	Username string `json:"username"`
+	Message  string `json:"message"`
+}
+
+func main() {
+	// Create a simple file server
+	fs := http.FileServer(http.Dir("../public"))
 }
