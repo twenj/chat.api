@@ -1,4 +1,4 @@
-package websocket_test
+package main
 
 import (
 	"encoding/json"
