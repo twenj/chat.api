@@ -24,15 +24,18 @@ type Message struct {
 }
 
 func main() {
-	// Create a simple file server
-	fs := http.FileServer(http.Dir("../public"))
-	http.Handle("/", fs)
-
 	// Configure websocket route
 	http.HandleFunc("/ws", handleConnections)
 
 	// Start listening for incoming chat message
 	go handleMessages()
+
+	// Start the server on localhost port 8080 and log any errors
+	log.Println("http server start on :8080")
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
 }
 
 func handleConnections(rw http.ResponseWriter, r *http.Request) {
